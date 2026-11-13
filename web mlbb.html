@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUMINOUS TEAM — Pendaftaran MLBB</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold: #d4af37;
+    --gold-light: #f4e4a6;
+    --gold-dark: #a8842a;
+    --white: #f8f8f6;
+    --bg-dark: #0c0b09;
+    --bg-panel: #14120e;
+    --border-soft: #2a2620;
+  }
+
+  body {
+    min-height: 100vh;
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg-dark);
+    color: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px 16px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* ====== ORNAMEN EMAS HALUS (anti-lag) ====== */
+  .ornament {
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.12;
+  }
+  .ornament-tl {
+    top: -80px; left: -80px;
+    width: 320px; height: 320px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    animation: slowSpin 40s linear infinite;
+    will-change: transform;
+  }
+  .ornament-tl::before {
+    content: '';
+    position: absolute;
+    inset: 30px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+  }
+  .ornament-br {
+    bottom: -100px; right: -100px;
+    width: 380px; height: 380px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    animation: slowSpin 50s linear infinite reverse;
+    will-change: transform;
+  }
+  .ornament-br::before {
+    content: '';
+    position: absolute;
+    inset: 40px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+  }
+  @keyframes slowSpin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Garis emas tipis vertikal di tengah */
+  .center-line {
+    position: fixed;
+    top: 0; bottom: 0;
+    left: 50%;
+    width: 1px;
+    background: linear-gradient(to bottom,
+      transparent,
+      rgba(212,175,55,0.08) 20%,
+      rgba(212,175,55,0.15) 50%,
+      rgba(212,175,55,0.08) 80%,
+      transparent);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ====== CARD UTAMA ====== */
+  .card {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 480px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border-soft);
+    border-radius: 4px;
+    padding: 0;
+    box-shadow:
+      0 0 0 1px rgba(212,175,55,0.15),
+      0 20px 60px rgba(0,0,0,0.6);
+    overflow: hidden;
+  }
+
+  /* Garis emas atas */
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent,
+      var(--gold) 20%,
+      var(--gold-light) 50%,
+      var(--gold) 80%,
+      transparent);
+  }
+
+  /* ====== HEADER ====== */
+  .header {
+    padding: 36px 32px 24px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-soft);
+    position: relative;
+  }
+
+  /* Ornamen kecil di atas judul */
+  .header-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .header-ornament .line {
+    width: 40px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold));
+  }
+  .header-ornament .line:last-child {
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+  .header-ornament .diamond {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    box-shadow: 0 0 8px rgba(212,175,55,0.6);
+  }
+
+  .team-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.85rem;
+    font-weight: 900;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    background: linear-gradient(180deg,
+      var(--gold-light) 0%,
+      var(--gold) 50%,
+      var(--gold-dark) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 6px;
+    line-height: 1.1;
+  }
+
+  .team-subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.7;
+    margin-bottom: 4px;
+  }
+
+  .team-tagline {
+    font-size: 0.72rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #8a8270;
+    margin-top: 10px;
+  }
+
+  /* ====== FORM ====== */
+  form {
+    padding: 28px 32px 32px;
+  }
+
+  .field { margin-bottom: 20px; }
+
+  label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    color: var(--gold);
+    opacity: 0.85;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 12px 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border-soft);
+    border-radius: 0;
+    color: var(--white);
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.3s;
+    letter-spacing: 0.3px;
+  }
+
+  input::placeholder {
+    color: #4a4640;
+    font-weight: 300;
+  }
+
+  input:focus, select:focus {
+    border-bottom-color: var(--gold);
+  }
+
+  select option {
+    background: var(--bg-panel);
+    color: var(--white);
+  }
+
+  /* ====== ROLE (elegan minimalis) ====== */
+  .roles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .role {
+    padding: 12px 6px;
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border: 1px solid var(--border-soft);
+    border-radius: 2px;
+    background: transparent;
+    cursor: pointer;
+    user-select: none;
+    color: #8a8270;
+    transition: all 0.25s ease;
+    position: relative;
+  }
+
+  .role:hover {
+    border-color: var(--gold);
+    color: var(--gold-light);
+  }
+
+  .role.active {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+    border-color: var(--gold);
+    color: var(--bg-dark);
+    font-weight: 700;
+    box-shadow: 0 0 20px rgba(212,175,55,0.3);
+  }
+
+  small.hint {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.65rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #5a5448;
+  }
+
+  /* ====== TOMBOL UTAMA ====== */
+  .btn {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid var(--gold);
+    border-radius: 2px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+    color: var(--bg-dark);
+    margin-top: 10px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(255,255,255,0.3),
+      transparent);
+    transition: left 0.6s;
+  }
+  .btn:hover::before { left: 100%; }
+  .btn:hover {
+    box-shadow: 0 0 30px rgba(212,175,55,0.5);
+    transform: translateY(-1px);
+  }
+  .btn:active { transform: scale(0.99); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* ====== TOMBOL SALIN ====== */
+  .btn-copy {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-soft);
+    border-radius: 2px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: var(--gold);
+    background: transparent;
+    margin-top: 10px;
+    transition: all 0.25s;
+  }
+  .btn-copy:hover {
+    border-color: var(--gold);
+    background: rgba(212,175,55,0.05);
+  }
+
+  /* ====== TOMBOL WA ====== */
+  .wa-btn {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    margin-top: 14px;
+    padding: 13px;
+    border-radius: 2px;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .wa-btn:hover {
+    background: var(--gold);
+    color: var(--bg-dark);
+    box-shadow: 0 0 25px rgba(212,175,55,0.4);
+  }
+
+  /* ====== FOOTER ====== */
+  .footer {
+    padding: 16px 32px 24px;
+    text-align: center;
+    border-top: 1px solid var(--border-soft);
+  }
+  .footer-text {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #5a5448;
+  }
+
+  /* ====== TOAST ====== */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--bg-panel);
+    color: var(--gold);
+    padding: 14px 26px;
+    border-radius: 2px;
+    border: 1px solid var(--gold);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 99;
+    max-width: 90vw;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 0 25px rgba(212,175,55,0.3);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.error {
+    border-color: #da3633;
+    color: #ff6b6b;
+    box-shadow: 0 0 25px rgba(218,54,51,0.3);
+  }
+
+  @media (max-width: 480px) {
+    .card { max-width: 100%; }
+    .header { padding: 28px 22px 20px; }
+    form { padding: 24px 22px 26px; }
+    .team-name { font-size: 1.5rem; letter-spacing: 4px; }
+    .footer { padding: 14px 22px 20px; }
+    .roles { grid-template-columns: repeat(2, 1fr); }
+    .ornament-tl, .ornament-br { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ornament-tl, .ornament-br { animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Ornamen emas halus -->
+<div class="ornament ornament-tl"></div>
+<div class="ornament ornament-br"></div>
+<div class="center-line"></div>
+
+<div class="card">
+  <div class="header">
+    <div class="header-ornament">
+      <span class="line"></span>
+      <span class="diamond"></span>
+      <span class="line"></span>
+    </div>
+    <h1 class="team-name">Luminous<br>Team</h1>
+    <p class="team-subtitle">MLBB Esports</p>
+    <p class="team-tagline">Pendaftaran Anggota Baru</p>
+  </div>
+
+  <form id="formDaftar">
+    <div class="field">
+      <label>Nickname</label>
+      <input type="text" id="nama" placeholder="Masukkan nickname" required>
+    </div>
+
+    <div class="field">
+      <label>ID MLBB</label>
+      <input type="text" id="idml" placeholder="Contoh: 123456789 (1234)" required>
+    </div>
+
+    <div class="field">
+      <label>Rank</label>
+      <select id="rank" required>
+        <option value="">— Pilih Rank —</option>
+        <option>Warrior</option>
+        <option>Elite</option>
+        <option>Master</option>
+        <option>Grandmaster</option>
+        <option>Epic</option>
+        <option>Legend</option>
+        <option>Mythic</option>
+        <option>Mythical Honor</option>
+        <option>Mythical Glory</option>
+        <option>Mythical Immortal</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Role (bisa lebih dari satu)</label>
+      <div class="roles" id="roles">
+        <div class="role" data-role="Tank">Tank</div>
+        <div class="role" data-role="Fighter">Fighter</div>
+        <div class="role" data-role="Assassin">Assassin</div>
+        <div class="role" data-role="Mage">Mage</div>
+        <div class="role" data-role="Marksman">Marksman</div>
+        <div class="role" data-role="Support">Support</div>
+      </div>
+      <small class="hint">Klik untuk memilih / menghapus</small>
+    </div>
+
+    <div class="field">
+      <label>No. WhatsApp</label>
+      <input type="tel" id="wa" placeholder="08xxxxxxxxxx" required>
+    </div>
+
+    <button type="submit" class="btn" id="btnKirim">Daftar & Gabung</button>
+    <button type="button" class="btn-copy" id="btnSalin" style="display:none;">Salin Data Pendaftaran</button>
+  </form>
+
+  <a class="wa-btn" id="grupWA" href="#" target="_blank">Gabung Grup WhatsApp</a>
+
+  <div class="footer">
+    <p class="footer-text">Luminous Team · Est. 2026</p>
+  </div>
+</div>
+
+<div class="toast" id="toast">OK</div>
+
+<script>
+/* ================== KONFIGURASI ================== */
+const CONFIG = {
+  LINK_GRUP_WA: "https://chat.whatsapp.com/FszfLLvXGbz5ePGRDskbbJ?s=sh&p=a&iam=2",
+  FORMSPREE_URL: "https://formspree.io/f/xnpdnppv"
+};
+/* ================================================ */
+
+document.getElementById('grupWA').href = CONFIG.LINK_GRUP_WA;
+
+/* ===== ROLE MULTI-PILIH ===== */
+let selectedRoles = [];
+document.querySelectorAll('.role').forEach(el => {
+  el.addEventListener('click', () => {
+    const role = el.dataset.role;
+    el.classList.toggle('active');
+    if (selectedRoles.includes(role)) {
+      selectedRoles = selectedRoles.filter(r => r !== role);
+    } else {
+      selectedRoles.push(role);
+    }
+  });
+});
+
+/* ===== TOAST ===== */
+let toastTimer;
+function showToast(msg, isError = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (isError ? ' error' : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.className = 'toast', 3500);
+}
+
+/* ===== COPY — execCommand DULU ===== */
+function copyToClipboard(text) {
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.top = '0';
+    ta.style.left = '0';
+    ta.style.width = '1px';
+    ta.style.height = '1px';
+    ta.style.padding = '0';
+    ta.style.border = 'none';
+    ta.style.outline = 'none';
+    ta.style.boxShadow = 'none';
+    ta.style.background = 'transparent';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    if (isIOS) {
+      const range = document.createRange();
+      range.selectNodeContents(ta);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      ta.setSelectionRange(0, 999999);
+    } else {
+      ta.focus();
+      ta.select();
+      ta.setSelectionRange(0, text.length);
+    }
+
+    const ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    if (ok) return true;
+  } catch (e) {
+    console.warn('execCommand gagal:', e);
+  }
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    try {
+      navigator.clipboard.writeText(text);
+      return true;
+    } catch (e) {
+      console.warn('Clipboard API gagal:', e);
+    }
+  }
+  return false;
+}
+
+let lastDataText = "";
+
+/* ===== SUBMIT ===== */
+document.getElementById('formDaftar').addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  const nama = document.getElementById('nama').value.trim();
+  const idml = document.getElementById('idml').value.trim();
+  const rank = document.getElementById('rank').value;
+  const wa   = document.getElementById('wa').value.trim();
+
+  if (!nama || !idml || !rank || !wa) {
+    showToast('Lengkapi semua data!', true);
+    return;
+  }
+  if (selectedRoles.length === 0) {
+    showToast('Pilih minimal 1 role!', true);
+    return;
+  }
+
+  const teks =
+`PENDAFTARAN LUMINOUS TEAM — MLBB
+Nama   : ${nama}
+ID MLBB: ${idml}
+Rank   : ${rank}
+Role   : ${selectedRoles.join(', ')}
+WA     : ${wa}
+Waktu  : ${new Date().toLocaleString('id-ID')}`;
+
+  lastDataText = teks;
+
+  /* 1) COPY SELESAI DULU */
+  const copied = copyToClipboard(teks);
+
+  /* 2) BUKA WA SETELAH COPY */
+  setTimeout(() => {
+    window.open(CONFIG.LINK_GRUP_WA, '_blank');
+  }, 100);
+
+  /* 3) EMAIL NOTIF BACKGROUND */
+  if (CONFIG.FORMSPREE_URL && !CONFIG.FORMSPREE_URL.includes('XXXX')) {
+    fetch(CONFIG.FORMSPREE_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: `Pendaftar Baru LUMINOUS TEAM: ${nama} (${rank})`,
+        nama, idml, rank,
+        roles: selectedRoles.join(', '),
+        wa,
+        waktu: new Date().toLocaleString('id-ID')
+      })
+    }).catch(err => console.warn('Email notif gagal:', err));
+  }
+
+  /* 4) TOAST */
+  if (copied) {
+    showToast('✓ Data tersalin · Membuka grup WA');
+  } else {
+    showToast('⚠ Gagal salin otomatis · Klik "Salin Data"', true);
+  }
+
+  document.getElementById('btnSalin').style.display = 'block';
+});
+
+/* ===== TOMBOL SALIN MANUAL ===== */
+document.getElementById('btnSalin').addEventListener('click', () => {
+  if (!lastDataText) {
+    showToast('Tidak ada data untuk disalin', true);
+    return;
+  }
+  const ok = copyToClipboard(lastDataText);
+  if (ok) {
+    showToast('✓ Data berhasil disalin');
+  } else {
+    const input = document.createElement('input');
+    input.value = lastDataText;
+    input.style.position = 'fixed';
+    input.style.top = '50%';
+    input.style.left = '50%';
+    input.style.transform = 'translate(-50%,-50%)';
+    input.style.zIndex = '99999';
+    input.style.padding = '10px';
+    input.style.width = '90%';
+    input.style.fontSize = '12px';
+    document.body.appendChild(input);
+    input.select();
+    showToast('Tekan Ctrl+C / tekan lama → Copy', true);
+    setTimeout(() => {
+      if (input.parentNode) input.parentNode.removeChild(input);
+    }, 8000);
+  }
+});
+
+/* ===== KLIK TOAST UNTUK SALIN ULANG ===== */
+document.getElementById('toast').addEventListener('click', () => {
+  if (lastDataText) {
+    const ok = copyToClipboard(lastDataText);
+    if (ok) showToast('✓ Data disalin ulang');
+  }
+});
+</script>
+
+</body>
+</html>
